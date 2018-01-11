@@ -322,6 +322,16 @@ public class MySqlHandler implements IDatasourceHandler<MysqlDataSource>{
 		}
 	}
 	
+	public void deleteSql(String whereClause) {
+		String sql="delete from "+datasource.getTable()+" where "+whereClause;
+		System.out.println(sql);
+		template.execute(sql);
+	}
+	
+	public void executeSql(String sql) {
+		template.execute(sql);
+	}
+	
 	
 	
 	class MysqlPreparedStatementSetter implements PreparedStatementSetter{
