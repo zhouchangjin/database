@@ -121,7 +121,7 @@ public class MysqlDataSource extends AbstractDataSource {
 	@Override
 	public String getConnectionStr() {
 		// TODO Auto-generated method stub
-		String url="jdbc:mysql://"+this.host+":"+this.port+"/"+this.database+"?user="+this.username+"&password="+this.password+"&zeroDateTimeBehavior=convertToNull&autoReconnect=true&autoReconnectForPools=true&useUnicode=true&characterEncoding=utf-8";
+		String url="jdbc:mysql://"+this.host+":"+this.port+"/"+this.database+"?user="+this.username+"&password="+this.password+"&zeroDateTimeBehavior=convertToNull&generateSimpleParameterMetadata=true&autoReconnect=true&autoReconnectForPools=true&useUnicode=true&characterEncoding=utf-8";
 		return url;
 	}
 

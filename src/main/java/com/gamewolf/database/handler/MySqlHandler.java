@@ -1,6 +1,8 @@
 package com.gamewolf.database.handler;
 
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.sql.ParameterMetaData;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
@@ -8,6 +10,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.apache.commons.beanutils.BeanUtils;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -19,6 +23,7 @@ import com.gamewolf.database.dbconnector.ClientProxy;
 import com.gamewolf.database.dbconnector.ConnectionMsg;
 import com.gamewolf.database.dbconnector.MysqlClientProxy;
 import com.gamewolf.database.dbsource.MysqlDataSource;
+import com.gamewolf.database.entity.IgnoreField;
 
 public class MySqlHandler implements IDatasourceHandler<MysqlDataSource>{
 	public static int PREVIEWSIZE=10;
@@ -96,7 +101,7 @@ public class MySqlHandler implements IDatasourceHandler<MysqlDataSource>{
 	 */
 	void buildConfig(){
 		//如果表里没数据，将会有bug�?
-		System.out.println(datasource.testConnection());
+		//System.out.println(datasource.testConnection());
 		template.query("select * from "+datasource.getTable()+" limit 0,1", new RowMapper<Object>(){
 			@Override
 			public Object mapRow(ResultSet rs, int rowNum) throws SQLException {
@@ -242,10 +247,43 @@ public class MySqlHandler implements IDatasourceHandler<MysqlDataSource>{
 		return builder.toString();
 	}
 	
+	public void insertIncomplete(Object t) {
+		String className=t.getClass().getName();
+		Method m[]=t.getClass().getMethods();
+		int size=0;
+		String colStr="";
+		List<String> colList=new ArrayList<String>();
+		for(int i=0;i<m.length;i++) {
+			
+			if(m[i].getDeclaringClass().getName().equals(className)) {
+				if(m[i].getName().startsWith("get") && m[i].getAnnotation(IgnoreField.class)==null) {
+					size++;
+					String memberName=m[i].getName().replace("get", "");
+					String reg="[A-Z][a-z]+";
+					Pattern p=Pattern.compile(reg);
+					Matcher matcher=p.matcher(memberName);
+					String item="";
+					while(matcher.find()) {
+						String text=matcher.group(0).toLowerCase();
+						item+=text+"_";
+					}
+					item=item.substring(0,item.length()-1);
+					colStr+=item+",";
+					colList.add(item);
+				}
+			}
+			
+		}
+		colStr=colStr.substring(0,colStr.length()-1);
+		
+		String sql="insert into "+datasource.getTable()+"("+colStr+") values("+buildQuestionMarkStr(size)+")";
+		template.update(sql, new MysqlPreparedStatementSetter(t,colList));
+		
+	}
 	
 	public void insertObject(Object t){
 		String sql="insert into "+datasource.getTable()+"("+getDefaultColumn()+") values("+buildQuestionMarkStr(config.attributeMapping.keySet().size())+")";
-		template.update(sql, new MysqlPreparedStatementSetter(t));
+		template.update(sql, new MysqlPreparedStatementSetter(t,defaultColList));
 	}
 	
 	public void updateObject(String idColumn,Object t){
@@ -267,18 +305,24 @@ public class MySqlHandler implements IDatasourceHandler<MysqlDataSource>{
 			e.printStackTrace();
 		} 
 		sql=sql+set+" where "+idColumn+"='"+type+"'";
-		template.update(sql, new MysqlPreparedStatementSetter(t));
+		template.update(sql, new MysqlPreparedStatementSetter(t,defaultColList));
 	}
 	
 	public void updateObject(String updateSql,String whereClause){
 		String sql="update "+datasource.getTable()+" set ";
 		sql=sql+updateSql+" where "+whereClause;
-		System.out.println(sql);
+		//System.out.println(sql);
 		template.update(sql);
 	}
 	
 	public Long getCnt(){
 		String sql="select count(*) from "+datasource.getTable()+"";
+		Long cnt=template.queryForObject(sql, Long.class);
+		return cnt;
+	}
+	
+	public Long getCnt(String whereClause) {
+		String sql="select count(*) from "+datasource.getTable()+" where "+whereClause;
 		Long cnt=template.queryForObject(sql, Long.class);
 		return cnt;
 	}
@@ -324,7 +368,7 @@ public class MySqlHandler implements IDatasourceHandler<MysqlDataSource>{
 	
 	public void deleteSql(String whereClause) {
 		String sql="delete from "+datasource.getTable()+" where "+whereClause;
-		System.out.println(sql);
+		//System.out.println(sql);
 		template.execute(sql);
 	}
 	
@@ -336,15 +380,17 @@ public class MySqlHandler implements IDatasourceHandler<MysqlDataSource>{
 	
 	class MysqlPreparedStatementSetter implements PreparedStatementSetter{
 		Object local;
-		MysqlPreparedStatementSetter(Object local){
+		List<String> colList;
+		MysqlPreparedStatementSetter(Object local,List<String> colList){
 			this.local=local;
+			this.colList=colList;
 		}
 		
 		@Override
 		public void setValues(PreparedStatement ps) throws SQLException {
 			// TODO Auto-generated method stub
-			for(int i=0;i<defaultColList.size();i++){
-				String key=defaultColList.get(i);
+            for(int i=0;i<colList.size();i++){
+				String key=colList.get(i);
 				String propertyName=config.getMapping(key);
 				String getterName="get"+propertyName.substring(0,1).toUpperCase()+propertyName.substring(1);
 				try {
