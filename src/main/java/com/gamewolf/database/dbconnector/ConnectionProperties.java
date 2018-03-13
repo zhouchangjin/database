@@ -3,6 +3,8 @@ package com.gamewolf.database.dbconnector;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.gamewolf.database.util.PropertiesUtil;
+
 public class ConnectionProperties {
 	public HashMap<String,String> connectionProperties;
 	public ConnectionProperties(){
@@ -21,6 +23,13 @@ public class ConnectionProperties {
 	
 	public void setMap(Map map){
 		connectionProperties.putAll(map);
+	}
+	
+	public static ConnectionProperties LoadPropertiesFromPropetiesFile(String filePath,String fileName,boolean isResource) {
+		ConnectionProperties connectionProperties=new ConnectionProperties();
+		HashMap<String,String> proMap=PropertiesUtil.parsePropertyFile(fileName, filePath, isResource);
+		connectionProperties.setHashMap(proMap);
+		return connectionProperties;
 	}
 
 }
