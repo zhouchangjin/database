@@ -25,9 +25,9 @@ public class ConnectionProperties {
 		connectionProperties.putAll(map);
 	}
 	
-	public static ConnectionProperties LoadPropertiesFromPropetiesFile(String filePath,String fileName,boolean isResource) {
+	public static ConnectionProperties loadPropertiesFromPropetiesFile(String filePath,String fileName,boolean isResource) {
 		ConnectionProperties connectionProperties=new ConnectionProperties();
-		HashMap<String,String> proMap=PropertiesUtil.parsePropertyFile(fileName, filePath, isResource);
+		HashMap<String,String> proMap=PropertiesUtil.parsePropertyFile(fileName, filePath, !isResource);
 		connectionProperties.setHashMap(proMap);
 		return connectionProperties;
 	}

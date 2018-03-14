@@ -2,6 +2,7 @@ package com.gamewolf.database.handler;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import redis.clients.jedis.Jedis;
@@ -71,15 +72,19 @@ public class JedisHandler implements IDatasourceHandler<JedisDataSource>{
 	
 	}
 	
-	 public void addSetElement(String setName,String... setvalue){
+	 public void addSetElement(String... setvalue){
 	    	try{
-	    		jedis.sadd(setName, setvalue);
+	    		jedis.sadd(datasource.getSchemaName(), setvalue);
 	    		
 	    	}catch(Exception e){
 	    		e.printStackTrace();
 	    		jedis.close();
 	    		jedis=jedisPool.getResource();
 	    	}
+	 }
+	 
+	 public void addMapElement(String key,String value) {
+		jedis.hset(datasource.getSchemaName(), key, value);
 	 }
 	
 
