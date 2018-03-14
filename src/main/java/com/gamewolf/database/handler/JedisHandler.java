@@ -86,6 +86,10 @@ public class JedisHandler implements IDatasourceHandler<JedisDataSource>{
 	 public void addMapElement(String key,String value) {
 		jedis.hset(datasource.getSchemaName(), key, value);
 	 }
+	 
+	 public Map<String,String> getMap() {
+		 return jedis.hgetAll(datasource.getSchemaName());
+	 }
 	
 
 	
