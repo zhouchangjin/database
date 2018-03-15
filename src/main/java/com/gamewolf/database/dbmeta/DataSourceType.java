@@ -15,5 +15,35 @@ public class DataSourceType {
 	public void setType(String type) {
 		this.type = type;
 	}
+	
+	public static DataSourceType buildDataSourceType(String type) {
+		DataSourceType dstype=new DataSourceType();
+		dstype.setType(type);
+		return dstype;
+	}
+	
+	public static DataSourceType mongo() {
+		DataSourceType dstype=new DataSourceType();
+		dstype.setType(DataSourceType.MONGO	);
+		return dstype;
+	}
+	
+	public static DataSourceType jedis() {
+		DataSourceType dstype=new DataSourceType();
+		dstype.setType(DataSourceType.JEDIS);
+		return dstype;
+	}
+	
+	public static DataSourceType mysql() {
+		DataSourceType dstype=new DataSourceType();
+		dstype.setType(DataSourceType.MYSQL);
+		return dstype;
+	}
+	
+	public static DataSourceType elasticSearch() {
+		DataSourceType dstype=new DataSourceType();
+		dstype.setType(DataSourceType.ELASTIC_SEARCH);
+		return dstype;
+	}
 
 }
