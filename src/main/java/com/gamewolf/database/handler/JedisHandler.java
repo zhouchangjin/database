@@ -72,6 +72,22 @@ public class JedisHandler implements IDatasourceHandler<JedisDataSource>{
 	
 	}
 	
+	public <T>T  pop() {
+		Class clazz=null;
+		try {
+			clazz = getClass().getMethod("pop").getReturnType();
+			return (T)JSON.parseObject(jedis.lpop(datasource.getSchemaName()),clazz);
+		} catch (NoSuchMethodException e) {
+			e.printStackTrace();
+			return null;
+		} catch (SecurityException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+		}
+
+	}
+	
 	 public void addSetElement(String... setvalue){
 	    	try{
 	    		jedis.sadd(datasource.getSchemaName(), setvalue);
