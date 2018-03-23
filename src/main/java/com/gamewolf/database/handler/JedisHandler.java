@@ -76,7 +76,7 @@ public class JedisHandler implements IDatasourceHandler<JedisDataSource>{
 		Class clazz=null;
 		try {
 			clazz = getClass().getMethod("pop").getReturnType();
-			return (T)JSON.parseObject(jedis.lpop(datasource.getSchemaName()),clazz);
+			return (T)JSON.parseObject(jedis.rpop(datasource.getSchemaName()),clazz);
 		} catch (NoSuchMethodException e) {
 			e.printStackTrace();
 			return null;
@@ -96,7 +96,7 @@ public class JedisHandler implements IDatasourceHandler<JedisDataSource>{
 		Class clazz=null;
 		try {
 			clazz = getClass().getMethod("pop").getReturnType();
-			return (T)JSON.parseObject(jedis.rpop(datasource.getSchemaName()),clazz);
+			return (T)JSON.parseObject(jedis.lpop(datasource.getSchemaName()),clazz);
 		} catch (NoSuchMethodException e) {
 			e.printStackTrace();
 			return null;
