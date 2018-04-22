@@ -11,6 +11,7 @@ import com.gamewolf.database.dbconnector.ClientManager;
 import com.gamewolf.database.dbconnector.ClientProxy;
 import com.gamewolf.database.dbconnector.MongoClientProxy;
 import com.gamewolf.database.dbsource.MongoDBDataSource;
+import com.gamewolf.database.entity.BasicObject;
 import com.mongodb.BasicDBObject;
 
 public class MongoHandler implements IDatasourceHandler<MongoDBDataSource> {
@@ -68,10 +69,32 @@ public class MongoHandler implements IDatasourceHandler<MongoDBDataSource> {
 		bq.skip(0).limit(10);
 		List<BasicDBObject> mylist=this.op.find(bq,BasicDBObject.class );
 		for(BasicDBObject object:mylist) {
-			Iterator<String> keyset=object.keySet().iterator();
+			BasicObject bo=buildBasicObject(object);
+			list.add(bo);
 		}
 		return list;
 	}
+	
+	public void insert(Object obj) {
+		this.op.insert(obj);
+	}
+
+	private BasicObject buildBasicObject(BasicDBObject object) {
+		BasicObject bo=BasicObject.buildBasicObject();
+		Iterator<String> it=object.keySet().iterator();
+		while(it.hasNext()) {
+			String key=it.next();
+			Object obj=object.get(key);
+			if(obj instanceof BasicDBObject) {
+				BasicDBObject bdb=(BasicDBObject)obj;
+				bo.set(key, buildBasicObject(bdb));
+			}else {
+				bo.set(key, obj);
+			}
+		}
+		return bo;
+	}
+
 
 	@Override
 	public void retrieveRows(IRowRetrieveCallback callback) {

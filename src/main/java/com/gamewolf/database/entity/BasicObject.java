@@ -11,7 +11,7 @@ public class BasicObject implements JSONEntity, XMLEntity {
 	public XMLVendor xmlVendor;
 	public Object baseObject;
 	HashMap<String,Object> properties;
-	
+	public static String outputSwitch="JSON";
 	
 	public BasicObject(Object baseObject,JSONVendor jsonVendor,XMLVendor xmlVendor) {
 
@@ -23,6 +23,14 @@ public class BasicObject implements JSONEntity, XMLEntity {
 	
 	private BasicObject() {
 		properties=new HashMap<String,Object>();
+	}
+	
+	public String toString() {
+		if(outputSwitch.equals("JSON")) {
+			return toJSONString();
+		}else {
+			return toJSONString();
+		}
 	}
 
 	@Override
