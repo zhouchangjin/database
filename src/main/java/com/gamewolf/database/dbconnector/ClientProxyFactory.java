@@ -12,7 +12,10 @@ public class ClientProxyFactory {
 			return new JedisClientProxy(datasource);
 		}else if(datasource.getType().getType().equals(DataSourceType.ELASTIC_SEARCH)){
 			return new ElasticSearchClientProxy(datasource);
-		}else{
+		}else if(datasource.getType().getType().equals(DataSourceType.MONGO)) {
+			return new MongoClientProxy(datasource);
+		}
+		else{
 			return new ClientProxy(datasource);
 		}
 		

@@ -2,7 +2,6 @@ package com.gamewolf.database.handler;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.sql.ParameterMetaData;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
@@ -100,7 +99,7 @@ public class MySqlHandler implements IDatasourceHandler<MysqlDataSource>{
 	 * 
 	 */
 	void buildConfig(){
-		//如果表里没数据，将会有bug�?
+		//如果表里没数据，将会有bug?
 		//System.out.println(datasource.testConnection());
 		template.query("select * from "+datasource.getTable()+" limit 0,1", new RowMapper<Object>(){
 			@Override
