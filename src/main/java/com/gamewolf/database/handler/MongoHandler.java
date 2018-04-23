@@ -21,6 +21,10 @@ public class MongoHandler implements IDatasourceHandler<MongoDBDataSource> {
 	MongoOperations op;
 	Class mappingClass=null;
 	
+	/**
+	 * 暂时还未使用
+	 * @param mappingClass
+	 */
 	public void setMappingClass(Class mappingClass) {
 		this.mappingClass=mappingClass;
 	}
