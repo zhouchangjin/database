@@ -21,7 +21,7 @@ public class BasicObject implements JSONEntity, XMLEntity {
 		
 	}
 	
-	private BasicObject() {
+	public BasicObject() {
 		properties=new HashMap<String,Object>();
 	}
 	
