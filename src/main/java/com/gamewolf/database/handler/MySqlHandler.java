@@ -22,7 +22,7 @@ import com.gamewolf.database.dbconnector.ClientProxy;
 import com.gamewolf.database.dbconnector.ConnectionMsg;
 import com.gamewolf.database.dbconnector.MysqlClientProxy;
 import com.gamewolf.database.dbsource.MysqlDataSource;
-import com.gamewolf.database.entity.IgnoreField;
+import com.gamewolf.database.orm.annotation.IgnoreField;
 
 public class MySqlHandler implements IDatasourceHandler<MysqlDataSource>{
 	public static int PREVIEWSIZE=10;
