@@ -11,8 +11,8 @@ public @interface ObjectTableBinding {
 	
 	 String table();
 	 Class javaClass();
-	 String propertieFile();
-	 String propertiePath();
-	 boolean isResource();
+	 String propertieFile() default "mysql.properties";
+	 String propertiePath() default "/";
+	 boolean isResource() default true;
 		
 }
