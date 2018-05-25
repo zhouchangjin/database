@@ -1,6 +1,6 @@
 package com.gamewolf.database.dbconnector;
 
-import java.net.UnknownHostException;
+
 
 import org.springframework.data.mongodb.MongoDbFactory;
 import org.springframework.data.mongodb.core.MongoOperations;
@@ -25,14 +25,9 @@ public class MongoClientProxy extends ClientProxy{
 			MongoDBDataSource mdb=(MongoDBDataSource)abstractDatasource;
 			String ip=mdb.getHost();
 			int port=mdb.getPort();
-			try {
-				MongoClient client=new MongoClient(ip,port);
-				MongoDbFactory factory=new SimpleMongoDbFactory(client, mdb.getDatabase());
-				operation=new MongoTemplate(factory);
-				
-			} catch (UnknownHostException e) {
-				e.printStackTrace();
-			}
+			MongoClient client=new MongoClient(ip,port);
+			MongoDbFactory factory=new SimpleMongoDbFactory(client, mdb.getDatabase());
+			operation=new MongoTemplate(factory);
 		}
 	}
 
