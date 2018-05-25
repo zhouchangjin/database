@@ -86,9 +86,7 @@ public class MongoHandler implements IDatasourceHandler<MongoDBDataSource> {
 	
 	
 	public <T> T getOne(String id,Class<T> type) {
-		
-		return (T) this.op.findById(id,type);
-
+		return this.op.findById(id, type, this.getDatasource().getCollection());
 	}
 	
 
