@@ -13,7 +13,6 @@ import com.gamewolf.database.dbconnector.ClientProxy;
 import com.gamewolf.database.dbconnector.MongoClientProxy;
 import com.gamewolf.database.dbsource.MongoDBDataSource;
 import com.gamewolf.database.entity.BasicObject;
-import com.mongodb.DBObject;
 import com.mongodb.client.FindIterable;
 
 public class MongoHandler implements IDatasourceHandler<MongoDBDataSource> {

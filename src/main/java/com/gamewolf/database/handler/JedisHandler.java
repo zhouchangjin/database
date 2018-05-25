@@ -5,15 +5,15 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import redis.clients.jedis.Jedis;
-import redis.clients.jedis.JedisPool;
-
 import com.alibaba.fastjson.JSON;
 import com.gamewolf.database.dbconnector.ClientManager;
 import com.gamewolf.database.dbconnector.ClientProxy;
 import com.gamewolf.database.dbconnector.ConnectionMsg;
 import com.gamewolf.database.dbconnector.JedisClientProxy;
 import com.gamewolf.database.dbsource.JedisDataSource;
+
+import redis.clients.jedis.Jedis;
+import redis.clients.jedis.JedisPool;
 
 public class JedisHandler implements IDatasourceHandler<JedisDataSource>{
 	
