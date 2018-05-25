@@ -123,6 +123,25 @@ public class MongoHandler implements IDatasourceHandler<MongoDBDataSource> {
 			}
 		}
 	}
+	
+	public void insert(Object obj,String id) {
+		BasicDBObject db=new BasicDBObject();
+		db.put("_id", id);
+		if(obj instanceof String) {
+			String str=(String)obj;
+			JSONObject json=JSON.parseObject(str);
+			processAlibabaJSONObject(json, db);
+		}else if(obj instanceof JSONObject){
+			JSONObject json=(JSONObject)obj;
+			processAlibabaJSONObject(json, db);
+		}else if(obj instanceof HashMap) {
+			
+		}else {
+			
+		}
+		this.op.getCollection(this.getDatasource().getCollection()).insert(db);
+	}
+	
 	public void insert(Object obj) {
 		BasicDBObject db=new BasicDBObject();
 		ObjectId id=new ObjectId();
