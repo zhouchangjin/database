@@ -85,6 +85,7 @@ public class MongoHandler implements IDatasourceHandler<MongoDBDataSource> {
 	
 	
 	public <T> T getOne(String id,Class<T> type) {
+		
 		return this.op.findById(id, type, this.getDatasource().getCollection());
 	}
 	
@@ -97,7 +98,6 @@ public class MongoHandler implements IDatasourceHandler<MongoDBDataSource> {
 	
 	public void insert(Object obj) {
 		try {
-
 			this.op.insert(obj,this.getDatasource().getCollection());
 		}catch(Exception e) {
 			e.printStackTrace();
