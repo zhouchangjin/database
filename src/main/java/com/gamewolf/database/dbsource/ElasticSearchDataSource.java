@@ -7,7 +7,9 @@ import org.elasticsearch.action.admin.indices.stats.IndicesStatsRequest;
 import org.elasticsearch.client.Client;
 import org.elasticsearch.client.transport.NoNodeAvailableException;
 import org.elasticsearch.client.transport.TransportClient;
-import org.elasticsearch.common.transport.InetSocketTransportAddress;
+import org.elasticsearch.common.settings.Settings;
+import org.elasticsearch.common.transport.TransportAddress;
+import org.elasticsearch.transport.client.PreBuiltTransportClient;
 
 import com.gamewolf.database.dbconnector.ConnectionMsg;
 
@@ -46,7 +48,8 @@ public class ElasticSearchDataSource  extends AbstractDataSource{
 		// TODO Auto-generated method stub
 		Client client=null;
 		try {
-			client= TransportClient.builder().build().addTransportAddress(new InetSocketTransportAddress(InetAddress.getByName(host), port));
+			client=  new PreBuiltTransportClient(Settings.EMPTY).addTransportAddress(new TransportAddress(InetAddress.getByName(host), 9300));
+			//TransportClient.builder().build().addTransportAddress(new InetSocketTransportAddress(InetAddress.getByName(host), port));
 			ConnectionMsg msg=new ConnectionMsg();
 			msg.setErrorNum(ConnectionMsg.SUCCESS_NUM);
 			msg.setErrorMsg("Successfull connected to ES");
@@ -54,6 +57,7 @@ public class ElasticSearchDataSource  extends AbstractDataSource{
 				IndicesStatsRequest request=new IndicesStatsRequest();
 				request.search();
 				client.admin().indices().stats(request);
+				client.close();
 			}catch(Exception e){
 				if (e instanceof NoNodeAvailableException){
 					msg.setErrorNum("101");

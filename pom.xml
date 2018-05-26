@@ -5,8 +5,8 @@
   <version>0.0.1-SNAPSHOT</version>
   	<properties>
   	<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-	<maven.compiler.source>9</maven.compiler.source>
-	<maven.compiler.target>9</maven.compiler.target>
+	<maven.compiler.source>1.8</maven.compiler.source>
+	<maven.compiler.target>1.8</maven.compiler.target>
 	</properties>
   <dependencies>
   	<dependency>
@@ -20,10 +20,16 @@
        			<version>0.9.1.2</version> 
     </dependency>
     <dependency>
-			<groupId>org.elasticsearch</groupId>
-			<artifactId>elasticsearch</artifactId>
-			<version>2.2.1</version>
+    	<groupId>org.elasticsearch</groupId>
+    	<artifactId>elasticsearch</artifactId>
+   		 <version>6.2.4</version>
 	</dependency>
+	<dependency>
+    <groupId>org.elasticsearch.client</groupId>
+    <artifactId>transport</artifactId>
+    <version>6.2.4</version>
+	</dependency>
+	
 	<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-jdbc</artifactId>

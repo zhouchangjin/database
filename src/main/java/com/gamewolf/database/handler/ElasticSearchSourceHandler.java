@@ -8,6 +8,7 @@ import java.util.Map;
 import org.apache.commons.beanutils.BeanUtils;
 import org.elasticsearch.action.index.IndexRequestBuilder;
 import org.elasticsearch.action.search.SearchResponse;
+import org.elasticsearch.action.support.WriteRequest.RefreshPolicy;
 import org.elasticsearch.client.Client;
 import org.elasticsearch.common.xcontent.XContentBuilder;
 import org.elasticsearch.index.query.QueryBuilder;
@@ -83,7 +84,7 @@ public class ElasticSearchSourceHandler implements IDatasourceHandler<ElasticSea
 		        SearchHits hits = searchResponse.getHits();
 		        List<Object> list=new ArrayList<Object>();
 		        for(int i=0;i<hits.getHits().length;i++){
-		        	list.add(hits.getAt(i).getSource());
+		        	list.add(hits.getAt(i).getSourceAsMap());
 		        }
 		        return list;
 	}
@@ -103,7 +104,7 @@ public class ElasticSearchSourceHandler implements IDatasourceHandler<ElasticSea
 		       Page<Map<String, Object>> pageObj= new Page<Map<String, Object>>(totalRecord,totalpage,currentPage,pageSize);
 		       List<Map<String, Object>> list=new ArrayList<Map<String, Object>>();
 		       for(int i=0;i<hits.getHits().length;i++){
-		        	list.add(hits.getAt(i).getSource());
+		        	list.add(hits.getAt(i).getSourceAsMap());
 		       }
 		       pageObj.setList(list);
 		       return pageObj;
@@ -123,7 +124,7 @@ public class ElasticSearchSourceHandler implements IDatasourceHandler<ElasticSea
 		       Page<Map<String, Object>> pageObj= new Page<Map<String, Object>>(totalRecord,totalpage,currentPage,pageSize);
 		       List<Map<String, Object>> list=new ArrayList<Map<String, Object>>();
 		       for(int i=0;i<hits.getHits().length;i++){
-		        	list.add(hits.getAt(i).getSource());
+		        	list.add(hits.getAt(i).getSourceAsMap());
 		       }
 		       pageObj.setList(list);
 		       return pageObj;
@@ -141,7 +142,7 @@ public class ElasticSearchSourceHandler implements IDatasourceHandler<ElasticSea
 		       Page<Map<String, Object>> pageObj= new Page<Map<String, Object>>(totalRecord,totalpage,currentPage,pageSize);
 		       List<Map<String, Object>> list=new ArrayList<Map<String, Object>>();
 		       for(int i=0;i<hits.getHits().length;i++){
-		        	list.add(hits.getAt(i).getSource());
+		        	list.add(hits.getAt(i).getSourceAsMap());
 		       }
 		       pageObj.setList(list);
 		       return pageObj;
@@ -155,7 +156,7 @@ public class ElasticSearchSourceHandler implements IDatasourceHandler<ElasticSea
 	
 	public void insertObject(Object t,String idField){
 
-			IndexRequestBuilder requestBuilder = client.prepareIndex(datasource.getIndexName(), datasource.getTypeName()).setRefresh(true);
+			IndexRequestBuilder requestBuilder = client.prepareIndex(datasource.getIndexName(), datasource.getTypeName()).setRefreshPolicy(RefreshPolicy.IMMEDIATE);
 			try {
 				requestBuilder
 				.setId(BeanUtils.getProperty(t, idField))
