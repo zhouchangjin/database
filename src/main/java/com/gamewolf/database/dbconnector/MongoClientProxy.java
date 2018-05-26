@@ -13,7 +13,6 @@ import org.springframework.data.mongodb.core.SimpleMongoDbFactory;
 import com.gamewolf.database.dbsource.AbstractDataSource;
 import com.gamewolf.database.dbsource.MongoDBDataSource;
 import com.mongodb.MongoClient;
-import com.mongodb.MongoClientOptions;
 import com.mongodb.MongoCredential;
 import com.mongodb.ServerAddress;
 
