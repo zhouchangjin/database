@@ -7,7 +7,7 @@ import java.lang.annotation.Target;
 
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.FIELD})
-public @interface ObjectTableBinding {
+public @interface MysqlTableBinding {
 	
 	 String table();
 	 Class javaClass();
