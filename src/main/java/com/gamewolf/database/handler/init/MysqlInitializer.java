@@ -8,7 +8,7 @@ import com.gamewolf.database.dbsource.DataSourceFactory;
 import com.gamewolf.database.dbsource.MysqlDataSource;
 import com.gamewolf.database.handler.MappingConfig;
 import com.gamewolf.database.handler.MySqlHandler;
-import com.gamewolf.database.orm.annotation.ObjectTableBinding;
+import com.gamewolf.database.orm.annotation.MysqlTableBinding;
 
 public class MysqlInitializer {
 	
@@ -18,8 +18,8 @@ public class MysqlInitializer {
 		
 		Field f[]=this.getClass().getFields();
 		for(Field field:f) {
-			if(field.getType().equals(MySqlHandler.class) && field.isAnnotationPresent(ObjectTableBinding.class)) {
-				ObjectTableBinding binding=field.getAnnotation(ObjectTableBinding.class);
+			if(field.getType().equals(MySqlHandler.class) && field.isAnnotationPresent(MysqlTableBinding.class)) {
+				MysqlTableBinding binding=field.getAnnotation(MysqlTableBinding.class);
 				Class t=binding.javaClass();
 				MappingConfig config=new MappingConfig();
 				config.setMappingClazz(t);
