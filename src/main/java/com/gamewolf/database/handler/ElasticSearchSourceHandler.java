@@ -10,6 +10,7 @@ import org.elasticsearch.action.index.IndexRequestBuilder;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.action.support.WriteRequest.RefreshPolicy;
 import org.elasticsearch.client.Client;
+import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.common.xcontent.XContentBuilder;
 import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
@@ -19,6 +20,7 @@ import com.gamewolf.database.dbconnector.ClientManager;
 import com.gamewolf.database.dbconnector.ClientProxy;
 import com.gamewolf.database.dbconnector.ConnectionMsg;
 import com.gamewolf.database.dbconnector.ElasticSearchClientProxy;
+import com.gamewolf.database.dbmeta.es.ESFieldSetting;
 import com.gamewolf.database.dbsource.ElasticSearchDataSource;
 import com.gamewolf.database.util.JSONUtil;
 
@@ -173,6 +175,27 @@ public class ElasticSearchSourceHandler implements IDatasourceHandler<ElasticSea
 				e.printStackTrace();
 			}
 
+	}
+	
+	public void createIndex(String indexName,String typeName,Map<String,ESFieldSetting> map) {
+		List<Object> source=new ArrayList<Object>();
+		
+		for(String key:map.keySet()) {
+			source.add(key);
+			ESFieldSetting setting=map.get(key);
+			String line="type="+setting.getType();
+			if(setting.getAnalyzer()==null) {
+				
+			}else {
+				line+=",analyzer="+setting.getAnalyzer()+",search_analyzer="+setting.getSearchAnalyzer();
+			}
+			
+			source.add(line);
+			
+		}
+		Object sources[]=source.toArray();
+		client.admin().indices().prepareCreate(typeName)   
+        .addMapping(typeName,sources).get();
 	}
 
 }

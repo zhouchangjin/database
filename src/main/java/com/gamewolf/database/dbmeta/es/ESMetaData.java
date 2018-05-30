@@ -7,13 +7,13 @@ import com.alibaba.fastjson.JSON;
 
 public class ESMetaData {
 	
-	Map<String,Object> map;
+	Map<String,ESFieldSetting> map;
 	
 	public ESMetaData() {
-		map=new HashMap<String,Object>();
+		map=new HashMap<String,ESFieldSetting>();
 	}
 	
-	public Map<String,Object> getMap(){
+	public Map<String,ESFieldSetting> getMap(){
 		return map;
 	}
 	

@@ -2,7 +2,7 @@ package com.gamewolf.database.dbmeta.es;
 
 public enum ESFieldType {
 	
-	String("string"),
+	String("text"),
 	Integer("integer"),
 	Double("double"),
 	Long("long"),

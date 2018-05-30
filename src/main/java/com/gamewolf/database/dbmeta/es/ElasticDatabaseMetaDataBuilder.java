@@ -9,14 +9,32 @@ public class ElasticDatabaseMetaDataBuilder {
 	
 	Map<String,Object> map;
 	ESMetaData metadata;
-	public ElasticDatabaseMetaDataBuilder prepareBuilder(){
+	public ElasticDatabaseMetaDataBuilder prepareBuilder(String typeName){
 		map=new HashMap<String, Object>();
+		
+		HashMap<String,Object> typeMap=new HashMap<String,Object>();
 		metadata=new ESMetaData();
-		map.put("properties", metadata.getMap());
+		typeMap.put("properties", metadata.getMap());
+		
+		map.put(typeName, typeMap);
 		return this;
 	}
 	
-	public <T> ElasticDatabaseMetaDataBuilder buildTypesFromTypeByDefaultSetting(Class<T> clazz){
+	
+	
+	public ESMetaData getMetadata() {
+		return metadata;
+	}
+
+
+
+	public void setMetadata(ESMetaData metadata) {
+		this.metadata = metadata;
+	}
+
+
+
+	public ElasticDatabaseMetaDataBuilder buildTypesFromTypeByDefaultSetting (Class clazz){
 		Method[] method=clazz.getMethods();
 		for(int i=0;i<method.length;i++){
 			Method methd=method[i];
@@ -64,8 +82,8 @@ public class ElasticDatabaseMetaDataBuilder {
 		return this;
 	}
 	
-	public Map<String,Object> get(){
-		return map;
+	public Map<String,ESFieldSetting> get(){
+		return metadata.getMap();
 	}
 
 }

@@ -1,4 +1,4 @@
-package com.gamewolf.database.orm.annotation;
+package com.gamewolf.database.orm.annotation.mapping;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
