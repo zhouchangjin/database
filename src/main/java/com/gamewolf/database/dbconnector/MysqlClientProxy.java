@@ -1,6 +1,7 @@
 package com.gamewolf.database.dbconnector;
 
 import java.beans.PropertyVetoException;
+import java.util.Properties;
 
 import javax.sql.DataSource;
 
@@ -19,9 +20,16 @@ public class MysqlClientProxy extends ClientProxy{
 	DataSource mysqlConnectionSource;
 
 	public MysqlClientProxy(AbstractDataSource abstractDatasource) {
+		
+		
 		super(abstractDatasource);
 		// TODO Auto-generated constructor stub
 		if(abstractDatasource instanceof MysqlDataSource){
+			Properties p = new Properties(System.getProperties());
+			p.put("com.mchange.v2.log.MLog", "com.mchange.v2.log.FallbackMLog");
+			p.put("com.mchange.v2.log.FallbackMLog.DEFAULT_CUTOFF_LEVEL", "INFO"); // Off or any other level
+			System.setProperties(p);
+			
 			MysqlDataSource datasource=(MysqlDataSource)abstractDatasource;
 			ComboPooledDataSource c3p0datasource=new ComboPooledDataSource();
 			String driverClass="com.mysql.jdbc.Driver";

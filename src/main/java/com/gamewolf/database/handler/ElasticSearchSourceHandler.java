@@ -22,7 +22,7 @@ import com.gamewolf.database.dbconnector.ConnectionMsg;
 import com.gamewolf.database.dbconnector.ElasticSearchClientProxy;
 import com.gamewolf.database.dbmeta.es.ESFieldSetting;
 import com.gamewolf.database.dbsource.ElasticSearchDataSource;
-import com.gamewolf.database.util.JSONUtil;
+import com.gamewolf.database.util.ElasticSearchJSONUtil;
 
 
 
@@ -162,7 +162,7 @@ public class ElasticSearchSourceHandler implements IDatasourceHandler<ElasticSea
 			try {
 				requestBuilder
 				.setId(BeanUtils.getProperty(t, idField))
-				.setSource(JSONUtil.getJson(t))
+				.setSource(ElasticSearchJSONUtil.getContentBuilder(t))
 				.execute()
 				.actionGet();
 			} catch (IllegalAccessException  e) {

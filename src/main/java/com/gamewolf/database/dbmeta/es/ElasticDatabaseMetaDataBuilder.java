@@ -4,6 +4,8 @@ import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.gamewolf.database.orm.annotation.mapping.UsingIndex;
+
 public class ElasticDatabaseMetaDataBuilder {
 	
 	
@@ -45,8 +47,10 @@ public class ElasticDatabaseMetaDataBuilder {
 				if(typeName.equals("String")){
 					ESFieldSetting fieldSetting=new ESFieldSetting();
 					fieldSetting.setType(ESFieldType.String);
-					fieldSetting.setSearchAnalyzer(ESAnalyzerType.IK);
-					fieldSetting.setAnalyzer(ESAnalyzerType.IK);
+					if(methd.isAnnotationPresent(UsingIndex.class)) {
+						fieldSetting.setSearchAnalyzer(ESAnalyzerType.IK);
+						fieldSetting.setAnalyzer(ESAnalyzerType.IK);
+					}
 					metadata.addFieldSetting(property, fieldSetting);
 				}else if(typeName.equals("Integer")){
 					ESFieldSetting fieldSetting=new ESFieldSetting();
