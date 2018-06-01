@@ -194,7 +194,7 @@ public class ElasticSearchSourceHandler implements IDatasourceHandler<ElasticSea
 			
 		}
 		Object sources[]=source.toArray();
-		client.admin().indices().prepareCreate(typeName)   
+		client.admin().indices().prepareCreate(indexName)   
         .addMapping(typeName,sources).get();
 	}
 
