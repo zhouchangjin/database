@@ -2,6 +2,7 @@ package com.gamewolf.database.handler;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -10,12 +11,12 @@ import org.elasticsearch.action.index.IndexRequestBuilder;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.action.support.WriteRequest.RefreshPolicy;
 import org.elasticsearch.client.Client;
-import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.common.xcontent.XContentBuilder;
 import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.SearchHits;
 
+import com.alibaba.fastjson.JSON;
 import com.gamewolf.database.dbconnector.ClientManager;
 import com.gamewolf.database.dbconnector.ClientProxy;
 import com.gamewolf.database.dbconnector.ConnectionMsg;
@@ -157,9 +158,18 @@ public class ElasticSearchSourceHandler implements IDatasourceHandler<ElasticSea
 	}
 	
 	public void insertObject(Object t,String idField){
-
-			IndexRequestBuilder requestBuilder = client.prepareIndex(datasource.getIndexName(), datasource.getTypeName()).setRefreshPolicy(RefreshPolicy.IMMEDIATE);
+			
 			try {
+				if(idField!=null && !"".equals(idField)) {
+					
+					Page<Map<String,Object>> page=multiQuery(QueryBuilders.idsQuery().addIds(BeanUtils.getProperty(t, idField)), 1, 10);
+					long total=page.getTotalRecord();
+					if(total>0) {
+						System.out.println("已经存在"+BeanUtils.getProperty(t, idField));
+						return;
+					}
+				}
+				IndexRequestBuilder requestBuilder = client.prepareIndex(datasource.getIndexName(), datasource.getTypeName()).setRefreshPolicy(RefreshPolicy.IMMEDIATE);
 				requestBuilder
 				.setId(BeanUtils.getProperty(t, idField))
 				.setSource(ElasticSearchJSONUtil.getContentBuilder(t))

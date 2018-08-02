@@ -21,9 +21,19 @@ public class ElasticSearchClientProxy extends ClientProxy{
 			ElasticSearchDataSource datasource=(ElasticSearchDataSource)abstractDatasource;
 			InetAddress ipAddress1 = null;
 			try {
-				ipAddress1 = InetAddress.getByName(datasource.getHost());
-				client= new PreBuiltTransportClient(Settings.EMPTY)
-		                .addTransportAddress(new TransportAddress(ipAddress1, 9300));
+				if(datasource.getClusterName()!=null && !datasource.getClusterName().equals("")) {
+					  Settings settings = Settings.builder().put("cluster.name", datasource.getClusterName()).build();
+					  ipAddress1 = InetAddress.getByName(datasource.getHost());
+						client= new PreBuiltTransportClient(settings)
+				                .addTransportAddress(new TransportAddress(ipAddress1, 9300));
+				}else {
+					
+					ipAddress1 = InetAddress.getByName(datasource.getHost());
+					client= new PreBuiltTransportClient(Settings.EMPTY)
+			                .addTransportAddress(new TransportAddress(ipAddress1, 9300));
+				}
+				
+				
 				
 				//ransportClient.builder().build().addTransportAddress(new InetSocketTransportAddress(ipAddress1, datasource.getPort()));
 			} catch (UnknownHostException e) {

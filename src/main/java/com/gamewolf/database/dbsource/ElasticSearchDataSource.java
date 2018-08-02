@@ -6,7 +6,6 @@ import java.net.UnknownHostException;
 import org.elasticsearch.action.admin.indices.stats.IndicesStatsRequest;
 import org.elasticsearch.client.Client;
 import org.elasticsearch.client.transport.NoNodeAvailableException;
-import org.elasticsearch.client.transport.TransportClient;
 import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.common.transport.TransportAddress;
 import org.elasticsearch.transport.client.PreBuiltTransportClient;
@@ -14,6 +13,7 @@ import org.elasticsearch.transport.client.PreBuiltTransportClient;
 import com.gamewolf.database.dbconnector.ConnectionMsg;
 
 public class ElasticSearchDataSource  extends AbstractDataSource{
+	String clusterName;
 	String host;
 	Integer port;
 	String indexName;
@@ -41,6 +41,13 @@ public class ElasticSearchDataSource  extends AbstractDataSource{
 	}
 	public void setPort(Integer port) {
 		this.port = port;
+	}
+	
+	public String getClusterName() {
+		return clusterName;
+	}
+	public void setClusterName(String clusterName) {
+		this.clusterName = clusterName;
 	}
 	
 	@Override
