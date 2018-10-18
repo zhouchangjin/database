@@ -78,6 +78,7 @@ public class MongoDBDataSource extends AbstractDataSource {
 			ConnectionMsg msg=new ConnectionMsg();
 			msg.setErrorNum(ConnectionMsg.SUCCESS_NUM);
 			msg.setErrorMsg(new Date().toLocaleString()+"连接"+master.getHost()+":"+master.getPort());
+			client.close();
 			return msg;
 		}catch(Exception e){
 			ConnectionMsg msg=new ConnectionMsg();
