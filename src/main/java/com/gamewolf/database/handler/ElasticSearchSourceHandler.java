@@ -2,7 +2,6 @@ package com.gamewolf.database.handler;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -16,7 +15,6 @@ import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.SearchHits;
 
-import com.alibaba.fastjson.JSON;
 import com.gamewolf.database.dbconnector.ClientManager;
 import com.gamewolf.database.dbconnector.ClientProxy;
 import com.gamewolf.database.dbconnector.ConnectionMsg;
