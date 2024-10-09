@@ -6,6 +6,7 @@ public class DataSourceType {
 	public final static String ELASTIC_SEARCH="elasticSearch";
 	public final static String JEDIS="jedis";
 	public final static String MYSQL="mysql";
+	public final static String SQLITE="sqlite";
 	String type;
 
 	public String getType() {
@@ -31,6 +32,12 @@ public class DataSourceType {
 	public static DataSourceType jedis() {
 		DataSourceType dstype=new DataSourceType();
 		dstype.setType(DataSourceType.JEDIS);
+		return dstype;
+	}
+	
+	public static DataSourceType sqlite() {
+		DataSourceType dstype=new DataSourceType();
+		dstype.setType(DataSourceType.SQLITE);
 		return dstype;
 	}
 	

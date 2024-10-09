@@ -14,8 +14,9 @@ public class ClientProxyFactory {
 			return new ElasticSearchClientProxy(datasource);
 		}else if(datasource.getType().getType().equals(DataSourceType.MONGO)) {
 			return new MongoClientProxy(datasource);
-		}
-		else{
+		}else if(datasource.getType().getType().equals(DataSourceType.SQLITE)) {
+			return new SqliteClientProxy(datasource);
+		}else{
 			return new ClientProxy(datasource);
 		}
 		

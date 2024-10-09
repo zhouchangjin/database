@@ -130,7 +130,7 @@ public class MySqlHandler implements IDatasourceHandler<MysqlDataSource>{
 
 	@Override
 	public List<Object> preview() {
-		List<Object> list=template.query("select "+getDefaultColumn()+"  from "+datasource.getTable()+" limit 0,"+MySqlHandler.PREVIEWSIZE, new RowMapper<Object>(){
+		List<Object> list=template.query("select "+getDefaultColumn()+"  from "+datasource.getTable()+" limit 0,"+PREVIEWSIZE, new RowMapper<Object>(){
 			@Override
 			public Object mapRow(ResultSet rs, int rowNum) throws SQLException {
 				
