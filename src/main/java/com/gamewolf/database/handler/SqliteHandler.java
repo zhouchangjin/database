@@ -160,4 +160,58 @@ public class SqliteHandler implements IDatasourceHandler<SqliteDataSource>{
 		
 	}
 
+	@Override
+	public void retrieveRows(IRowRetrieveCallback callback, int start, int limit) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void retrieveRowsWithQueryClause(IRowRetrieveCallback callback, String whereClause) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void insertIncomplete(Object t) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void insertObject(Object t) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void updateObject(String idColumn, Object t) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void updateObject(String updateSql, String whereClause) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public Long getCnt() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Long getCnt(String whereClause) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Object getOne(String whereClause) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }
