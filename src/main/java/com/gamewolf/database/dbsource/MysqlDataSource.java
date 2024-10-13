@@ -5,13 +5,12 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 import com.gamewolf.database.dbconnector.ConnectionMsg;
-import com.gamewolf.database.dbsource.AbstractDataSource;
 /**
  * 
  * @author
  *
  */
-public class MysqlDataSource extends AbstractDataSource {
+public class MysqlDataSource extends AbstractDataSource implements ITableDatasource{
 	
 	String host;
 	Integer port;

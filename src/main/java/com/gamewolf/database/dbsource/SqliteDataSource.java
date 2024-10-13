@@ -6,7 +6,7 @@ import java.sql.SQLException;
 
 import com.gamewolf.database.dbconnector.ConnectionMsg;
 
-public class SqliteDataSource extends AbstractDataSource{
+public class SqliteDataSource extends AbstractDataSource implements ITableDatasource{
 	
 	String databaseFile;
 	String table;

@@ -14,10 +14,10 @@ import org.apache.commons.beanutils.BeanUtils;
 import org.springframework.jdbc.core.RowCallbackHandler;
 
 /**
- * @author 周长�?
+ * @author zhouchangjin
  *
  */
-public class MysqlRowCallBackHandler implements RowCallbackHandler {
+public class DefaultSqlRowCallBackHandler implements RowCallbackHandler {
 	
 	IRowRetrieveCallback callback;
 	

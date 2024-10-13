@@ -25,13 +25,15 @@ public class SqliteHandlerTest {
 				getDataSourceByType(DataSourceType.sqlite(), connectionProperties);
 		sqliteDataSource.setTable("books");
 		handler.setDatasource(sqliteDataSource);
-		handler.SetConfig(mappingConfig);
+		handler.setConfig(mappingConfig);
 		handler.initialize();
 		List<Object> books=handler.preview();
 		for(Object o:books) {
 			Book book=(Book)o;
 			System.out.println(JSONObject.toJSONString(book));
 		}
+		
+		System.out.print(((Book)handler.getOne("id=2")).getAuthor());
 	}
 
 }
