@@ -12,6 +12,7 @@ public class MySqlHandler extends DefaultJDBCDatasourceHandler implements IDatas
 
 	@Override
 	public void setDatasource(MysqlDataSource datasource) {
+		super.datasource=datasource;
 		this.datasource=datasource;
 	}
 
