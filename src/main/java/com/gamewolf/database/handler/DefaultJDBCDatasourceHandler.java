@@ -9,6 +9,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -17,6 +18,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementSetter;
 import org.springframework.jdbc.core.RowMapper;
 
+import com.alibaba.fastjson.JSONObject;
 import com.gamewolf.database.dbconnector.ConnectionMsg;
 import com.gamewolf.database.dbsource.ITableDatasource;
 import com.gamewolf.database.orm.annotation.mapping.IgnoreField;
@@ -153,8 +155,19 @@ public class DefaultJDBCDatasourceHandler{
 						for(int i=1;i<=metaData.getColumnCount();i++){
 							String colSql=metaData.getColumnName(i);
 							String mappedAttr=config.getMapping(colSql);
-							if(rs.getObject(i)!=null)
-							BeanUtils.setProperty(obj, mappedAttr, rs.getObject(i));
+							if(rs.getObject(i)!=null) {
+								//BeanUtils.setProperty(obj, mappedAttr, rs.getObject(i));
+								if(obj instanceof JSONObject) {
+									JSONObject object=(JSONObject) obj;
+									object.put(mappedAttr, rs.getObject(i));
+								}else if(obj instanceof Map) {
+								     Map<String,Object> mapObj=(Map<String,Object>)obj;
+								     mapObj.put(mappedAttr, rs.getObject(i));
+								}else {
+									BeanUtils.setProperty(obj, mappedAttr, rs.getObject(i));
+								}
+							}
+							
 						}
 						return obj;
 					} catch (InstantiationException e) {
@@ -196,35 +209,69 @@ public class DefaultJDBCDatasourceHandler{
 		
 	}
 	
+	public String toColumnCase(String inputName) {
+		String memberName=inputName.substring(0, 1).toUpperCase()+inputName.substring(1);
+		String reg="[A-Z][a-z]+";
+		Pattern p=Pattern.compile(reg);
+		Matcher matcher=p.matcher(memberName);
+		String item="";
+		while(matcher.find()) {
+			String text=matcher.group(0).toLowerCase();
+			item+=text+"_";
+		}
+		item=item.substring(0,item.length()-1);
+		return item;
+	}
+	
 	public void insertIncomplete(Object t) {
-		String className=t.getClass().getName();
-		Method m[]=t.getClass().getMethods();
-		int size=0;
 		String colStr="";
 		List<String> colList=new ArrayList<String>();
-		for(int i=0;i<m.length;i++) {
+		int size=0;
+		if(t instanceof Map) {
+			Map<String,Object> map=(Map<String,Object>)t;
+			for(String key:map.keySet()) {
+				size++;
+				String colName=toColumnCase(key);
+				colStr+=colName+",";
+				colList.add(colName);
+			}
+		}else if(t instanceof JSONObject) {
+			JSONObject obj=(JSONObject)t;
+			for(String key:obj.keySet()) {
+				size++;
+				String colName=toColumnCase(key);
+				colStr+=colName+",";
+				colList.add(colName);
+			}
 			
-			if(m[i].getDeclaringClass().getName().equals(className)) {
-				if(m[i].getName().startsWith("get") && m[i].getAnnotation(IgnoreField.class)==null) {
-					size++;
-					String memberName=m[i].getName().replace("get", "");
-					String reg="[A-Z][a-z]+";
-					Pattern p=Pattern.compile(reg);
-					Matcher matcher=p.matcher(memberName);
-					String item="";
-					while(matcher.find()) {
-						String text=matcher.group(0).toLowerCase();
-						item+=text+"_";
+		}else {
+			String className=t.getClass().getName();
+			Method m[]=t.getClass().getMethods();
+			for(int i=0;i<m.length;i++){
+				if(m[i].getDeclaringClass().getName().equals(className)) {
+					if(m[i].getName().startsWith("get") && m[i].getAnnotation(IgnoreField.class)==null) {
+						size++;
+						String memberName=m[i].getName().replace("get", "");
+						/**
+						String reg="[A-Z][a-z]+";
+						Pattern p=Pattern.compile(reg);
+						Matcher matcher=p.matcher(memberName);
+						String item="";
+						while(matcher.find()) {
+							String text=matcher.group(0).toLowerCase();
+							item+=text+"_";
+						}
+						item=item.substring(0,item.length()-1);**/
+						String item=toColumnCase(memberName);
+						colStr+=item+",";
+						colList.add(item);
 					}
-					item=item.substring(0,item.length()-1);
-					colStr+=item+",";
-					colList.add(item);
 				}
+				
 			}
 			
 		}
 		colStr=colStr.substring(0,colStr.length()-1);
-		
 		String sql="insert into "+datasource.getTable()+"("+colStr+") values("+buildQuestionMarkStr(size)+")";
 		template.update(sql, new SqlPreparedStatementSetter(t,colList));
 		
@@ -246,14 +293,22 @@ public class DefaultJDBCDatasourceHandler{
 			}
 		}
 		String propertyName=config.getMapping(idColumn);
-		String getterName="get"+propertyName.substring(0,1).toUpperCase()+propertyName.substring(1);
-		String type="";
-		try {
-			type = t.getClass().getMethod(getterName).invoke(t).toString();
-		} catch (Exception e) {
-			e.printStackTrace();
-		} 
-		sql=sql+set+" where "+idColumn+"='"+type+"'";
+		String value="";
+		if(t instanceof Map) {
+			Map<String,Object> map=(Map<String,Object>)t;
+			value=map.get(idColumn).toString();
+		}else if(t instanceof JSONObject) {
+			JSONObject obj=(JSONObject)t;
+			value=obj.getString(idColumn);
+		}else {
+			String getterName="get"+propertyName.substring(0,1).toUpperCase()+propertyName.substring(1);
+			try {
+				value = t.getClass().getMethod(getterName).invoke(t).toString();
+			} catch (Exception e) {
+				e.printStackTrace();
+			} 
+		}
+		sql=sql+set+" where "+idColumn+"='"+value+"'";
 		template.update(sql, new SqlPreparedStatementSetter(t,defaultColList));
 	}
 	
@@ -376,14 +431,26 @@ public class DefaultJDBCDatasourceHandler{
             for(int i=0;i<colList.size();i++){
 				String key=colList.get(i);
 				String propertyName=config.getMapping(key);
-				String getterName="get"+propertyName.substring(0,1).toUpperCase()+propertyName.substring(1);
-				try {
-					Object type=local.getClass().getMethod(getterName).invoke(local);
-					ps.setObject(i+1, type);
-				} catch (Exception e) {
+				
+				if(local instanceof Map) {
+					Map<String,Object> map=(Map<String,Object>)local;
+					Object value=map.get(propertyName);
+					ps.setObject(i+1, value);
+				}else if(local instanceof JSONObject) {
+					JSONObject obj=(JSONObject)local;
+					Object value=obj.get(propertyName);
+					ps.setObject(i+1, value);
+				}else {
+					String getterName="get"+propertyName.substring(0,1).toUpperCase()+propertyName.substring(1);
+					try {
+						Object value=local.getClass().getMethod(getterName).invoke(local);
+						ps.setObject(i+1, value);
+					} catch (Exception e) {
+						
+						e.printStackTrace();
+					} 
 					
-					e.printStackTrace();
-				} 
+				}			
 			}
 		}
 		
