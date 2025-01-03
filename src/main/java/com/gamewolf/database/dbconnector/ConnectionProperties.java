@@ -21,6 +21,10 @@ public class ConnectionProperties {
 		connectionProperties.putAll(map);
 	}
 	
+	public boolean contains(String property) {
+		return connectionProperties.containsKey(property);
+	}
+	
 	public void setMap(Map map){
 		connectionProperties.putAll(map);
 	}

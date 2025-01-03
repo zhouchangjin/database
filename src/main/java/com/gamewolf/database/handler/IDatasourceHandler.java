@@ -2,11 +2,12 @@ package com.gamewolf.database.handler;
 
 import java.util.List;
 
-import com.gamewolf.database.dbsource.AbstractDataSource;
+import com.gamewolf.database.dbsource.ITableDatasource;
 
 
-public interface IDatasourceHandler<T extends AbstractDataSource> {
+public interface IDatasourceHandler<T extends ITableDatasource> {
 	
+	void setConfig(MappingConfig config);
 	public void setDatasource(T datasource);
 	public T getDatasource();
 	public boolean isConnected();

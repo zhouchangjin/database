@@ -191,4 +191,11 @@ public class MongoHandler implements IDatasourceHandler<MongoDBDataSource> {
 		return null;
 	}
 
+
+	@Override
+	public void setConfig(MappingConfig config) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

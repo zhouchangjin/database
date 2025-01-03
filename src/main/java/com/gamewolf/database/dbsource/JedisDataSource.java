@@ -5,7 +5,7 @@ import com.gamewolf.database.dbconnector.ConnectionMsg;
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPoolConfig;
 
-public class JedisDataSource extends AbstractDataSource{
+public class JedisDataSource extends AbstractDataSource implements ITableDatasource{
 	
 	String host;
 	int maxIdle;
@@ -89,6 +89,18 @@ public class JedisDataSource extends AbstractDataSource{
 	public String getConnectionStr() {
 		// TODO Auto-generated method stub
 		return "redis://"+this.host+":"+6379;
+	}
+
+	@Override
+	public String getTable() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void setTable(String table) {
+		// TODO Auto-generated method stub
+		
 	}
 	
 	

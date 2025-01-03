@@ -205,4 +205,10 @@ public class JedisHandler implements IDatasourceHandler<JedisDataSource>{
 		return null;
 	}
 
+	@Override
+	public void setConfig(MappingConfig config) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

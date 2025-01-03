@@ -6,7 +6,7 @@ import com.gamewolf.database.dbconnector.ConnectionMsg;
 import com.mongodb.MongoClient;
 import com.mongodb.ServerAddress;
 
-public class MongoDBDataSource extends AbstractDataSource {
+public class MongoDBDataSource extends AbstractDataSource implements ITableDatasource{
 	
 	String host;
 	Integer port;
@@ -93,6 +93,18 @@ public class MongoDBDataSource extends AbstractDataSource {
 	public String getConnectionStr() {
 		// TODO Auto-generated method stub
 		return "mongo://"+this.host+":"+this.port+"/?username="+this.username+"&password="+this.password;
+	}
+
+	@Override
+	public String getTable() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void setTable(String table) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

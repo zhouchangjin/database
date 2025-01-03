@@ -260,4 +260,10 @@ public class ElasticSearchSourceHandler implements IDatasourceHandler<ElasticSea
 		return null;
 	}
 
+	@Override
+	public void setConfig(MappingConfig config) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

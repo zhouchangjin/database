@@ -12,7 +12,7 @@ import org.elasticsearch.transport.client.PreBuiltTransportClient;
 
 import com.gamewolf.database.dbconnector.ConnectionMsg;
 
-public class ElasticSearchDataSource  extends AbstractDataSource{
+public class ElasticSearchDataSource  extends AbstractDataSource implements ITableDatasource{
 	String clusterName;
 	String host;
 	Integer port;
@@ -89,6 +89,16 @@ public class ElasticSearchDataSource  extends AbstractDataSource{
 	public String getConnectionStr() {
 		// TODO Auto-generated method stub
 		return "es://"+this.host+":"+this.port+"";
+	}
+	@Override
+	public String getTable() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	@Override
+	public void setTable(String table) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }
