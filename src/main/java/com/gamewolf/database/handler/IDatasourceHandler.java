@@ -8,6 +8,7 @@ import com.gamewolf.database.dbsource.ITableDatasource;
 public interface IDatasourceHandler<T extends ITableDatasource> {
 	
 	void setConfig(MappingConfig config);
+	public void setTableDatasource(ITableDatasource tableDatasource);
 	public void setDatasource(T datasource);
 	public T getDatasource();
 	public boolean isConnected();

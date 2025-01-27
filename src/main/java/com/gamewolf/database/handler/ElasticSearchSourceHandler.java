@@ -21,6 +21,7 @@ import com.gamewolf.database.dbconnector.ConnectionMsg;
 import com.gamewolf.database.dbconnector.ElasticSearchClientProxy;
 import com.gamewolf.database.dbmeta.es.ESFieldSetting;
 import com.gamewolf.database.dbsource.ElasticSearchDataSource;
+import com.gamewolf.database.dbsource.ITableDatasource;
 import com.gamewolf.database.util.ElasticSearchJSONUtil;
 
 
@@ -262,6 +263,12 @@ public class ElasticSearchSourceHandler implements IDatasourceHandler<ElasticSea
 
 	@Override
 	public void setConfig(MappingConfig config) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void setTableDatasource(ITableDatasource tableDatasource) {
 		// TODO Auto-generated method stub
 		
 	}

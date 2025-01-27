@@ -10,6 +10,7 @@ import com.gamewolf.database.dbconnector.ClientManager;
 import com.gamewolf.database.dbconnector.ClientProxy;
 import com.gamewolf.database.dbconnector.ConnectionMsg;
 import com.gamewolf.database.dbconnector.JedisClientProxy;
+import com.gamewolf.database.dbsource.ITableDatasource;
 import com.gamewolf.database.dbsource.JedisDataSource;
 
 import redis.clients.jedis.Jedis;
@@ -207,6 +208,12 @@ public class JedisHandler implements IDatasourceHandler<JedisDataSource>{
 
 	@Override
 	public void setConfig(MappingConfig config) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void setTableDatasource(ITableDatasource tableDatasource) {
 		// TODO Auto-generated method stub
 		
 	}

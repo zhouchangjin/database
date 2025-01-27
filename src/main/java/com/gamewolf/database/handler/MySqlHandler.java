@@ -4,6 +4,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import com.gamewolf.database.dbconnector.ClientManager;
 import com.gamewolf.database.dbconnector.ClientProxy;
 import com.gamewolf.database.dbconnector.MysqlClientProxy;
+import com.gamewolf.database.dbsource.ITableDatasource;
 import com.gamewolf.database.dbsource.MysqlDataSource;
 
 public class MySqlHandler extends DefaultJDBCDatasourceHandler implements IDatasourceHandler<MysqlDataSource>{
@@ -33,6 +34,13 @@ public class MySqlHandler extends DefaultJDBCDatasourceHandler implements IDatas
 			initializeFlag=true;
 		}
 		return initializeFlag;
+	}
+
+	@Override
+	public void setTableDatasource(ITableDatasource tableDatasource) {
+		// TODO Auto-generated method stub
+		super.datasource=tableDatasource;
+		this.datasource=(MysqlDataSource) tableDatasource;
 	}
 
 }

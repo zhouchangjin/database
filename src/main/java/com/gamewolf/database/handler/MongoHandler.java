@@ -11,6 +11,7 @@ import org.springframework.data.mongodb.core.query.BasicQuery;
 import com.gamewolf.database.dbconnector.ClientManager;
 import com.gamewolf.database.dbconnector.ClientProxy;
 import com.gamewolf.database.dbconnector.MongoClientProxy;
+import com.gamewolf.database.dbsource.ITableDatasource;
 import com.gamewolf.database.dbsource.MongoDBDataSource;
 import com.gamewolf.database.entity.BasicObject;
 import com.mongodb.client.FindIterable;
@@ -194,6 +195,13 @@ public class MongoHandler implements IDatasourceHandler<MongoDBDataSource> {
 
 	@Override
 	public void setConfig(MappingConfig config) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void setTableDatasource(ITableDatasource tableDatasource) {
 		// TODO Auto-generated method stub
 		
 	}

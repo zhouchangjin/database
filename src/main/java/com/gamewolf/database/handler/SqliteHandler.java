@@ -4,6 +4,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import com.gamewolf.database.dbconnector.ClientManager;
 import com.gamewolf.database.dbconnector.ClientProxy;
 import com.gamewolf.database.dbconnector.SqliteClientProxy;
+import com.gamewolf.database.dbsource.ITableDatasource;
 import com.gamewolf.database.dbsource.SqliteDataSource;
 
 public class SqliteHandler extends DefaultJDBCDatasourceHandler implements IDatasourceHandler<SqliteDataSource>{
@@ -35,6 +36,13 @@ public class SqliteHandler extends DefaultJDBCDatasourceHandler implements IData
 			initializeFlag=true;
 		}
 		return initializeFlag;
+	}
+
+	@Override
+	public void setTableDatasource(ITableDatasource tableDatasource) {
+		super.datasource=tableDatasource;
+		this.datasource=(SqliteDataSource) tableDatasource;
+		
 	}
 	
 
